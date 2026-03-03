@@ -24,6 +24,7 @@ function CreateUser({ token, onClose, onCreated }) {
 
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const validate = () => {
     let newErrors = {};
@@ -79,7 +80,7 @@ function CreateUser({ token, onClose, onCreated }) {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/", {
+      const response = await fetch(`${API_URL}/api/users/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

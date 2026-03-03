@@ -3,6 +3,7 @@ import styles from "./EditUser.module.css";
 import { useNavigate } from "react-router-dom";
 
 function EditUser({ user, token, onClose, onUpdated }) {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [firstName, setFirstName] = useState(user.firstName);
   const [email, setEmail] = useState(user.email);
   const st = user.status == "Active" ? true : false;
@@ -13,21 +14,18 @@ function EditUser({ user, token, onClose, onUpdated }) {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/users/${user._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify({
-            firstName,
-            email,
-            status,
-          }),
+      const response = await fetch(`${API_URL}/api/users/${user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
-      );
+        body: JSON.stringify({
+          firstName,
+          email,
+          status,
+        }),
+      });
 
       const result = await response.json();
       if (!response.ok) {

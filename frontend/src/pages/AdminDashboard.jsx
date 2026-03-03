@@ -6,6 +6,7 @@ import CreateUser from "../Forms/CreateUser";
 import "./AdminDashboard.css";
 
 function AdminDashboard() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [data, setData] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [deleteFlag, setDeleteFlag] = useState(false);
@@ -15,7 +16,7 @@ function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/", {
+      const response = await fetch(`${API_URL}/api/users/`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,

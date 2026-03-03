@@ -2,21 +2,19 @@ import { useNavigate } from "react-router-dom";
 import styles from "./DeleteUser.module.css";
 
 function DeleteUser({ user, token, onClose, onUpdate }) {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/users/${user._id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+      const response = await fetch(`${API_URL}/api/users/${user._id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
         },
-      );
+      });
 
       if (!response.ok) {
         if (response.status == 401) {
