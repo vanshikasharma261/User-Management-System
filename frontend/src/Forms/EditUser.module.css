@@ -1,0 +1,73 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formBox {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+}
+
+.formBox h3 {
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="email"] {
+  width: 100%;
+  padding: 8px;
+}
+
+.statusGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statusToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusToggle input {
+  width: auto;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.updateBtn {
+  background-color: green;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background-color: red;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
