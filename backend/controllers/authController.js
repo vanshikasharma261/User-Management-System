@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        //just to change the git name
+
 
         const user = await User.findOne({ email, isDeleted: false });
 
