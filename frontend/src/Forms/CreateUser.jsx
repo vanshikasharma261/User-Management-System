@@ -52,6 +52,27 @@ function CreateUser({ token, onClose, onCreated }) {
     if (!formData.age || formData.age <= 0) {
       newErrors.age = "Valid age required";
     }
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = "phone number is required";
+    }
+    if (!formData.gender.trim()) {
+      newErrors.gender = "gender is required";
+    }
+    if (!formData.street.trim()) {
+      newErrors.street = "street is required";
+    }
+    if (!formData.city.trim()) {
+      newErrors.city = "city is required";
+    }
+    if (!formData.state.trim()) {
+      newErrors.state = "state is required";
+    }
+    if (!formData.country.trim()) {
+      newErrors.country = "country is required";
+    }
+    if (!formData.zipCode.trim()) {
+      newErrors.zipCode = "zip code is required";
+    }
 
     setErrors(newErrors);
 
@@ -187,6 +208,7 @@ function CreateUser({ token, onClose, onCreated }) {
               />
               Female
             </label>
+            {errors.gender && <p className={styles.error}>{errors.gender}</p>}
           </div>
 
           <input
@@ -208,18 +230,25 @@ function CreateUser({ token, onClose, onCreated }) {
 
           {/* Address */}
           <input name="street" placeholder="Street" onChange={handleChange} />
+          {errors.street && <p className={styles.error}>{errors.street}</p>}
           <input name="city" placeholder="City" onChange={handleChange} />
+          {errors.city && <p className={styles.error}>{errors.city}</p>}
           <input name="state" placeholder="State" onChange={handleChange} />
+          {errors.state && <p className={styles.error}>{errors.state}</p>}
           <input name="country" placeholder="Country" onChange={handleChange} />
+          {errors.country && <p className={styles.error}>{errors.country}</p>}
           <input
             name="zipCode"
             placeholder="Zip Code"
             onChange={handleChange}
           />
+          {errors.zipCode && <p className={styles.error}>{errors.zipCode}</p>}
 
           <div className={styles.buttonGroup}>
-            <button type="submit">Create</button>
-            <button type="button" onClick={onClose}>
+            <button type="submit" id={styles.submit}>
+              Create
+            </button>
+            <button type="button" id={styles.cancel} onClick={onClose}>
               Cancel
             </button>
           </div>

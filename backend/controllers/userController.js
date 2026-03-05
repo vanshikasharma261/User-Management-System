@@ -144,6 +144,23 @@ const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
         req.body.status = req.body.status ? "Active" : "Inactive";
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const errors = {}
+
+        if (!req.body.firstName.trim()) {
+            errors.firstName = "First Name is required"
+        }
+        if (!req.body.email.trim()) {
+            errors.email = "Email is required"
+        }
+        if (!emailRegex.test(req.body.email)) {
+            errors.email = "Invalid email"
+        }
+
+        if (errors.length > 0) {
+            return res.status(400).json({ success: false, message: "validation failded", data: errors });
+        }
+
         const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }).select("-password");
 
         if (!updatedUser) {

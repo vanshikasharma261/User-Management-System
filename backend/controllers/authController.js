@@ -6,6 +6,23 @@ const login = async (req, res) => {
         const { email, password } = req.body;
         //just to change the git name
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const errors = {}
+
+        if (!email.trim()) {
+            errors.email = "Email is required"
+        }
+        if (email && !emailRegex.test(email)) {
+            errors.email = "Invalid email"
+        }
+        if (!password.trim()) {
+            errors.password = "Password is required"
+        }
+
+        if (Object.keys(errors).length > 0) {
+            return res.status(400).json({ success: false, message: "validation failed", data: errors });
+        }
+
 
         const user = await User.findOne({ email, isDeleted: false });
 
@@ -26,7 +43,7 @@ const login = async (req, res) => {
         const token = jwt.sign(
             { id: user._id, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: "3m" }
+            { expiresIn: "1h" }
         );
 
         res.status(200).json({

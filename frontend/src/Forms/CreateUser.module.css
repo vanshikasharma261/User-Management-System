@@ -54,6 +54,16 @@
 .buttonGroup button {
   padding: 8px 15px;
   cursor: pointer;
+  border: none;
+  color: white;
+}
+
+#submit {
+  background-color: green;
+}
+
+#cancel {
+  background-color: red;
 }
 
 .error {

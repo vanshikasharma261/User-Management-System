@@ -24,7 +24,8 @@ function DeleteUser({ user, token, onClose, onUpdate }) {
         return;
       }
 
-      await response.json();
+      const result = await response.json();
+      console.log(result);
 
       onUpdate();
       onClose();

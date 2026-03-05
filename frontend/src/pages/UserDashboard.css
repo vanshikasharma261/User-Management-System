@@ -1,0 +1,35 @@
+.userDashboard {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.dashboardTitle {
+  margin-bottom: 30px;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.userInfoCard {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  transition: 0.3s ease;
+}
+
+.userInfoCard:hover {
+  transform: translateY(-4px);
+}
+
+.userInfoCard h3 {
+  margin: 10px 0;
+}
+
+.userInfoCard p {
+  margin: 8px 0;
+  color: #6b7280;
+  font-size: 15px;
+}
