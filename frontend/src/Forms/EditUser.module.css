@@ -23,13 +23,20 @@
 }
 
 .formGroup {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
-.formGroup input[type="text"],
-.formGroup input[type="email"] {
+.formGroup label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.formGroup input {
   width: 100%;
-  padding: 8px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
 }
 
 .statusGroup {

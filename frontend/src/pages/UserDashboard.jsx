@@ -38,7 +38,7 @@ function UserDashboard() {
       <h2 className="dashboardTitle">User Dashboard</h2>
 
       <div className="userInfoCard">
-        <h3>{user.firstName}</h3>
+        <h3>{[user.firstName, user.lastName].join(" ")}</h3>
         <p>{user.email}</p>
         <p>Status: {user.status}</p>
       </div>
