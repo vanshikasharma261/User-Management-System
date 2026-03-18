@@ -11,6 +11,7 @@ function AdminDashboard() {
   const API_URL = import.meta.env.VITE_API_URL;
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.users);
+  const error = useSelector((state) => state.user.error);
   const [selectedUser, setSelectedUser] = useState(null);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [createFlag, setCreateFlag] = useState(false);
@@ -31,7 +32,14 @@ function AdminDashboard() {
   };
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    async function fetchData() {
+      let result = await dispatch(fetchUsers());
+      if (result.payload.status == 401) {
+        navigate("/");
+      }
+      console.log("Data in fetch user is: ", result);
+    }
+    fetchData();
   }, []);
 
   return (

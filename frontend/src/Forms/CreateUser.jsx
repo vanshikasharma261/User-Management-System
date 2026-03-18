@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./CreateUser.module.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchUsers } from "../redux/userslice";
+import { createUser, fetchUsers } from "../redux/userslice";
 
 function CreateUser({ token, onClose }) {
   const dispatch = useDispatch();
@@ -103,31 +103,21 @@ function CreateUser({ token, onClose }) {
       return;
     }
 
-    try {
-      const response = await fetch(`${API_URL}/api/users/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        if (response.status == 401) {
-          navigate("/");
-        }
-        console.log(result.message);
-        setErrors(result.data);
+    let result = await dispatch(createUser(formData));
+    if (result.meta.requestStatus == "fulfilled") {
+      onClose();
+    } else {
+      if (result.payload.message == "Validation errors") {
+        setErrors(result.payload.data);
+      }
+      if (result.payload.status == 401) {
+        navigate("/");
       } else {
-        dispatch(fetchUsers());
+        alert("Something Went Wrong on Server Side");
         onClose();
       }
-    } catch (error) {
-      console.error(error);
     }
+    console.log("The result in create user is: ", result);
   };
 
   return (
