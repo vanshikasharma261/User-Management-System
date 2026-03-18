@@ -116,7 +116,6 @@ function CreateUser({ onClose }) {
         onClose();
       }
     }
-    console.log("The result in create user is: ", result);
   };
 
   return (

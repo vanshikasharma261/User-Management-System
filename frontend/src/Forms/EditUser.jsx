@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./EditUser.module.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchUsers } from "../redux/userslice";
+import { fetchUsers, updateUser } from "../redux/userslice";
 
 function EditUser({ user, token, onClose }) {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -36,39 +36,27 @@ function EditUser({ user, token, onClose }) {
     if (!validate()) {
       return;
     }
-    try {
-      const response = await fetch(`${API_URL}/api/users/${user._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify({
-          firstName,
-          email,
-          status,
-        }),
-      });
 
-      const result = await response.json();
-      if (!response.ok) {
-        if (response.status == 401) {
-          navigate("/");
-        } else if (response.status == 404) {
-          alert("User Not Found");
-          return;
-        } else {
-          alert(response.message);
-          setErrors(result.data);
-        }
+    let data = {
+      firstName,
+      email,
+      status,
+      id: user._id,
+    };
+    let result = await dispatch(updateUser(data));
+    if (result.meta.requestStatus == "fulfilled") {
+      onClose();
+    } else {
+      if (result.payload.message == "validation failed") {
+        setErrors(result.payload.data);
+      } else if (result.payload.status == 401) {
+        navigate("/");
+      } else if (result.payload.status == 404) {
+        alert("User Not Found");
       } else {
-        console.log(result);
-
-        dispatch(fetchUsers());
+        alert("Something went wrong");
         onClose();
       }
-    } catch (error) {
-      console.error("Error updating user:", error);
     }
   };
 

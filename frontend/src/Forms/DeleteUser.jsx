@@ -12,7 +12,6 @@ function DeleteUser({ user, onClose }) {
     e.preventDefault();
 
     let result = await dispatch(deleteUser(user._id));
-    console.log(result);
     if (result.meta.requestStatus == "fulfilled") {
       onClose();
     } else {
