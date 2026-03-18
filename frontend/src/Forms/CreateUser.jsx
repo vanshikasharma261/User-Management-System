@@ -2,9 +2,9 @@ import { useState } from "react";
 import styles from "./CreateUser.module.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createUser, fetchUsers } from "../redux/userslice";
+import { createUser } from "../redux/userslice";
 
-function CreateUser({ token, onClose }) {
+function CreateUser({ onClose }) {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -109,8 +109,7 @@ function CreateUser({ token, onClose }) {
     } else {
       if (result.payload.message == "Validation errors") {
         setErrors(result.payload.data);
-      }
-      if (result.payload.status == 401) {
+      } else if (result.payload.status == 401) {
         navigate("/");
       } else {
         alert("Something Went Wrong on Server Side");

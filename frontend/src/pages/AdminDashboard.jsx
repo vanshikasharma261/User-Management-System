@@ -51,9 +51,7 @@ function AdminDashboard() {
         </button>
       </div>
 
-      {createFlag && (
-        <CreateUser token={token} onClose={() => setCreateFlag(false)} />
-      )}
+      {createFlag && <CreateUser onClose={() => setCreateFlag(false)} />}
 
       {selectedUser && !deleteFlag && (
         <EditUser
@@ -66,7 +64,6 @@ function AdminDashboard() {
       {selectedUser && deleteFlag && (
         <DeleteUser
           user={selectedUser}
-          token={token}
           onClose={() => {
             setDeleteFlag(false);
             setSelectedUser(null);

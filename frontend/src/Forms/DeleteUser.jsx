@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./DeleteUser.module.css";
 import { useDispatch } from "react-redux";
-import { fetchUsers } from "../redux/userslice";
+import { deleteUser } from "../redux/userslice";
 
-function DeleteUser({ user, token, onClose }) {
+function DeleteUser({ user, onClose }) {
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -11,29 +11,17 @@ function DeleteUser({ user, token, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(`${API_URL}/api/users/${user._id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      if (!response.ok) {
-        if (response.status == 401) {
-          navigate("/");
-        }
-        alert("Something went wrong!");
-        return;
-      }
-
-      const result = await response.json();
-      console.log(result);
-
-      dispatch(fetchUsers());
+    let result = await dispatch(deleteUser(user._id));
+    console.log(result);
+    if (result.meta.requestStatus == "fulfilled") {
       onClose();
-    } catch (error) {
-      console.error(error);
+    } else {
+      if (result.payload.status == 401) {
+        navigate("/");
+      } else {
+        alert("Something went wrong");
+        onClose();
+      }
     }
   };
 
