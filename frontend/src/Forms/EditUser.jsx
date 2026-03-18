@@ -1,8 +1,10 @@
 import { useState } from "react";
 import styles from "./EditUser.module.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchUsers } from "../redux/userslice";
 
-function EditUser({ user, token, onClose, onUpdated }) {
+function EditUser({ user, token, onClose }) {
   const API_URL = import.meta.env.VITE_API_URL;
   const [firstName, setFirstName] = useState(user.firstName);
   const [email, setEmail] = useState(user.email);
@@ -11,6 +13,7 @@ function EditUser({ user, token, onClose, onUpdated }) {
   const [errors, setErrors] = useState({});
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validate = () => {
     let newErrors = {};
@@ -61,7 +64,7 @@ function EditUser({ user, token, onClose, onUpdated }) {
       } else {
         console.log(result);
 
-        onUpdated();
+        dispatch(fetchUsers());
         onClose();
       }
     } catch (error) {

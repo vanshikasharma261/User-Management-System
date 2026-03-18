@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./DeleteUser.module.css";
+import { useDispatch } from "react-redux";
+import { fetchUsers } from "../redux/userslice";
 
-function DeleteUser({ user, token, onClose, onUpdate }) {
+function DeleteUser({ user, token, onClose }) {
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +30,7 @@ function DeleteUser({ user, token, onClose, onUpdate }) {
       const result = await response.json();
       console.log(result);
 
-      onUpdate();
+      dispatch(fetchUsers());
       onClose();
     } catch (error) {
       console.error(error);

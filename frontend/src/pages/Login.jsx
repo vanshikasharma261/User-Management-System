@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/authslice";
 
 function Login() {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,44 +35,21 @@ function Login() {
     if (!validate()) {
       return;
     }
-
-    try {
-      const response = await fetch(`${API_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        console.log(result.message);
-        if (result.message == "validation failed") {
-          setErrors(result.data);
-        }
-        return;
-      }
-
-      // Save token
-      localStorage.setItem("token", result.token);
-
-      const token = localStorage.getItem("token");
-      const decoded = jwtDecode(token);
-      const role = decoded.role;
-
-      console.log(decoded.role);
-
-      // Redirect based on role
-      if (role === "Admin") {
+    const result = await dispatch(loginUser({ email, password }));
+    // console.log("Result from loginUSer is: ", result);
+    if (result.meta.requestStatus === "fulfilled") {
+      const role = result.payload.role;
+      if (role == "Admin") {
         navigate("/admin");
-      } else {
+      }
+      if (role == "User") {
         navigate("/user");
       }
-    } catch (error) {
-      console.log(error);
-      alert("Login failed");
+    } else {
+      if (result.payload?.message == "validation failed") {
+        setErrors(result.payload.data);
+      }
+      return;
     }
   };
 

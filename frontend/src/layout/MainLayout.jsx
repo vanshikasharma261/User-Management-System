@@ -1,10 +1,13 @@
+import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import { logOut } from "../redux/authslice";
 
 function MainLayout() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogOut = () => {
-    localStorage.setItem("token", "");
+    dispatch(logOut());
     navigate("/");
   };
 

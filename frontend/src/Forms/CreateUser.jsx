@@ -1,8 +1,11 @@
 import { useState } from "react";
 import styles from "./CreateUser.module.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchUsers } from "../redux/userslice";
 
-function CreateUser({ token, onClose, onCreated }) {
+function CreateUser({ token, onClose }) {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -119,7 +122,7 @@ function CreateUser({ token, onClose, onCreated }) {
         console.log(result.message);
         setErrors(result.data);
       } else {
-        onCreated();
+        dispatch(fetchUsers());
         onClose();
       }
     } catch (error) {
